@@ -8,16 +8,17 @@ services:
     environment:
       - LOG_LEVEL
     volumes:
-      - master:/etc/salt/master
+      - ./master:/etc/salt/master
       - ./pillar/:/etc/salt/pillar/
       - ./states/:/etc/salt/states/
-      - ./extmods/:/etc/salt/extmods/
   salt-proxy:
     image: mirceaulinic/salt-proxy:2017.7.5
     hostname: ${PROXYID}
     container_name: salt-proxy-${PROXYID}
     volumes:
-      - proxy:/etc/salt/proxy
+      - ./proxy:/etc/salt/proxy
     environment:
       - LOG_LEVEL
       - PROXYID
+    depends_on:
+      - salt-master

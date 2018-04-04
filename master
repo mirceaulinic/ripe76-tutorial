@@ -7,5 +7,4 @@ pillar_roots:
 file_roots:
   base:
     - /etc/salt
-    - /etc/salt/extmods
     - /etc/salt/states
