@@ -1,0 +1,20 @@
+version: '2.1'
+
+services:
+  salt-master:
+    image: mirceaulinic/salt-master:2017.7.5
+    hostname: salt-master
+    container_name: salt-master
+    environment:
+      - LOG_LEVEL
+    volumes:
+      - ./pillar/:/etc/salt/pillar/
+      - ./states/:/etc/salt/states/
+      - ./extmods/:/etc/salt/extmods/
+  salt-proxy:
+    image: mirceaulinic/salt-proxy:2017.7.5
+    hostname: ${PROXYID}
+    container_name: salt-proxy-${PROXYID}
+    environment:
+      - LOG_LEVEL
+      - PROXYID
