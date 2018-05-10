@@ -8,3 +8,13 @@ file_roots:
   base:
     - /etc/salt
     - /etc/salt/states
+
+engines:
+  - napalm_syslog:
+      address: localhost
+      port: 49017
+      disable_security: true
+
+reactor:
+  - 'napalm/syslog/*/NTP_SERVER_UNREACHABLE/*':
+    - salt://reactor/exec_ntp_state.sls

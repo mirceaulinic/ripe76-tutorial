@@ -1,6 +1,17 @@
 version: '2.1'
 
 services:
+  napalm-logs:
+    image: mirceaulinic/napalm-logs:0.5.0
+    hostname: napalm-logs
+    container_name: napalm-logs
+    environment:
+      - LOG_LEVEL
+    volumes:
+      - ./napalm-logs.conf:/etc/napalm/logs
+    network_mode: host
+    ports:
+      - "49017"
   salt-master:
     image: mirceaulinic/salt-master:2017.7.5
     hostname: salt-master
@@ -11,6 +22,8 @@ services:
       - ./master:/etc/salt/master
       - ./pillar/:/etc/salt/pillar/
       - ./states/:/etc/salt/states/
+      - ./reactor:/etc/salt/reactor/
+    network_mode: host
   salt-proxy:
     image: mirceaulinic/salt-proxy:2017.7.5
     hostname: ${PROXYID}
@@ -20,5 +33,4 @@ services:
     environment:
       - LOG_LEVEL
       - PROXYID
-    depends_on:
-      - salt-master
+    network_mode: host

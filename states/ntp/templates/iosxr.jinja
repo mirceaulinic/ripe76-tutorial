@@ -1,0 +1,33 @@
+no ntp
+{%- if system.ntp.get('config', {}).get('enabled', True) %}
+{#  configure the NTP source interface name #}
+{# IOS-XR does not support source IP address configuration #}
+{%-   if ntp_config.get('ntp_source_interface') %}
+ntp source {{ ntp_config.ntp_source_interface }}
+{%-   endif %}
+{%-   if ntp_config.get('ntp_update_calendar', False) %}
+ntp update-calendar
+{%-   endif %}
+{#  building the configuration for peers/servers #}
+{%-   for server_addr, server_opts in ntp_servers.server.items() %}
+{%-     if server_opts.get('_salt_resolve', False) %}
+{%-       do salt.log.debug('Resolving NTP peers addresses from Salt') %}
+{%-       set server_ips = salt.dnsutil.A(server_addr) %}
+{%-       do salt.log.debug('DNS A for {}'.format(server_addr)) %}
+{%-       do salt.log.debug(server_ips) %}
+{%-       for server_ip in server_ips %}
+ntp {{ server_opts.config.association_type | lower }} {{ server_ip }}
+{%-         if server_opts.config.get('prefer') %} prefer{%- endif -%}
+{%-         if server_opts.config.get('iburst') %} iburst{%- endif -%}
+{%-         if server_opts.config.get('version') %} version {{ server_opts.config.version }}{%- endif -%}
+{#  end configuring the opts of a server #}
+{%-       endfor %}
+{%-     else %}
+ntp {{ server_opts.config.association_type | lower }} {{ server_addr }}
+{%-     if server_opts.config.get('prefer') %} prefer{%- endif -%}
+{%-     if server_opts.config.get('iburst') %} iburst{%- endif -%}
+{%-     if server_opts.config.get('version') %} version {{ server_opts.config.version }}{%- endif -%}
+{#  end configuring the opts of a server #}
+{%-     endif %}
+{%-   endfor %}
+{%- endif %}
