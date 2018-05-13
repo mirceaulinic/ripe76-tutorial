@@ -34,6 +34,15 @@ Usage (briefly)
 3. Edit the file ``pillar/device1_pillar.sls`` with the correct credentials of
    your device you want to manage.
 
+   Ensure your device sends the syslog messages to the host where napalm-logs 
+   is running, over port ``17171`` (as configured in the ``napalm-logs.conf`` 
+   file).
+   Configuration example for Junos: ``set system syslog host 10.10.10.1 port 
+   17171 any any``. For more detailed notes for other platforms, check the 
+   `Supported devices and configuration 
+   <https://napalm-logs.com/en/latest/device_config/index.html>`_ section in 
+   the napalm-logs documentation.
+
 4. Start using it:
 
    .. code-block:: bash
