@@ -8,8 +8,7 @@ The files in this repository are used in my `RIPE 76
 tutorial <https://ripe76.ripe.net/programme/meeting-plan/tutorials/>`_, 
 *Event-driven Network Automation and Orchestration*.
 
-Slides to be published soon, with a detailed description of the files and 
-usage examples.
+The slides are available `<https://ripe76.ripe.net/presentations/17-RIPE76_-Event-driven-network-automation-and-orchestration.pdf>`_. 
 
 Please follow the installation notes for `Docker 
 <https://docs.docker.com/install/>`_ and `Docker Compose 
@@ -18,6 +17,9 @@ below.
 
 Usage (briefly)
 ---------------
+
+You can use the steps below to validate your environment, and ensure
+that the Proxy Minion is up and usable:
 
 1. Clone this repo:
 
@@ -97,4 +99,3 @@ Run a test State:
   Total states run:     1
   Total run time:   0.760 ms
   root@salt-master:/# %
-
